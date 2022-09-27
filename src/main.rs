@@ -23,6 +23,10 @@ struct CliArgs {
   /// Minify the output
   #[clap(short, long, value_parser)]
   minify: bool,
+  /// When minifying, prefer optimizing browser runtime performance
+  /// over file size
+  #[clap(long, value_parser)]
+  minify_prefer_performance: bool,
   /// Enable parsing CSS nesting
   #[clap(long, value_parser)]
   nesting: bool,
@@ -139,6 +143,7 @@ pub fn main() -> Result<(), std::io::Error> {
     stylesheet
       .to_css(PrinterOptions {
         minify: cli_args.minify,
+        minify_prefer_performance: cli_args.minify_prefer_performance,
         source_map: source_map.as_mut(),
         targets,
         ..PrinterOptions::default()

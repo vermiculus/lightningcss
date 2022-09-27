@@ -241,7 +241,8 @@ impl<'a, 'i> StyleRule<'i> {
 
             dest.newline()?;
             decl.to_css(dest, $important)?;
-            if i != len - 1 || !dest.minify {
+            // TODO make sensitive to targeting IE in `dest.targets`
+            if i != len - 1 || !(dest.minify && !dest.minify_prefer_performance) {
               dest.write_char(';')?;
             }
 

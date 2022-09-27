@@ -14,6 +14,8 @@ use parcel_sourcemap::{OriginalLocation, SourceMap};
 pub struct PrinterOptions<'a> {
   /// Whether to minify the CSS, i.e. remove white space.
   pub minify: bool,
+  /// Whether to prefer performance over file size when minifying.
+  pub minify_prefer_performance: bool,
   /// An optional reference to a source map to write mappings into.
   pub source_map: Option<&'a mut SourceMap>,
   /// Browser targets to output the CSS for.
@@ -67,6 +69,7 @@ pub struct Printer<'a, 'b, 'c, W> {
   line: u32,
   col: u32,
   pub(crate) minify: bool,
+  pub(crate) minify_prefer_performance: bool,
   pub(crate) targets: Option<Browsers>,
   /// Vendor prefix override. When non-empty, it overrides
   /// the vendor prefix of whatever is being printed.
@@ -95,6 +98,7 @@ impl<'a, 'b, 'c, W: std::fmt::Write + Sized> Printer<'a, 'b, 'c, W> {
       line: 0,
       col: 0,
       minify: options.minify,
+      minify_prefer_performance: options.minify_prefer_performance,
       targets: options.targets,
       vendor_prefix: VendorPrefix::empty(),
       in_calc: false,
